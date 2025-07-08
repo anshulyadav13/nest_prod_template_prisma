@@ -6,7 +6,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { getTranslation } from '../../translations/translation.util';
+import { getTranslation } from '../translations/translation.util';
 
 @Catch()
 export class GlobalHttpExceptionFilter implements ExceptionFilter {
@@ -32,9 +32,15 @@ export class GlobalHttpExceptionFilter implements ExceptionFilter {
       message = exception.message;
     }
 
+    
     // Translate message if it's a known key
     message = getTranslation(message, lang);
-
+    
+    // If internal server error, override message
+    if (status === HttpStatus.INTERNAL_SERVER_ERROR) {
+      console.error(message);
+      message = 'Internal server error';
+    }
     response.status(status).json({
       success: false,
       data: null,

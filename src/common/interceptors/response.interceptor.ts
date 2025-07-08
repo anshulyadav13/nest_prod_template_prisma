@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { getTranslation } from '../../translations/translation.util';
+import { getTranslation } from '../translations/translation.util';
 
 @Injectable()
 export class ResponseInterceptor implements NestInterceptor {
